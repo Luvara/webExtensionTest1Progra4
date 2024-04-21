@@ -1,15 +1,29 @@
-import "./App.css";
-import { useState } from "react";
+import React, { useState } from "react";
+import OptionSelector from "./components/EngineSelectorComponent";
+import FlowSelector from "./components/FlowSelectorComponent";
+import TextInput from "./components/TextInputComponent";
+import SubmitButton from "./components/SubmitButtonComponent";
 
-function App() {
-  const [prompt, setPrompt] = useState<string | undefined>(undefined);
+const App: React.FC = () => {
   const [selectedOption, setSelectedOption] = useState("option1");
   const [selectedFlow, setSelectedFlow] = useState("flujo1");
+  const [prompt, setPrompt] = useState("");
 
-  const onClick = async () => {
-    let messageSend = ""; // Inicialmente, conservamos el prompt actual
+  const handleOptionChange = (option: string) => {
+    setSelectedOption(option);
+  };
 
-    // Verificar el flujo seleccionado y actualizar el prompt si es necesario
+  const handleFlowChange = (flow: string) => {
+    setSelectedFlow(flow);
+  };
+
+  const handlePromptChange = (newPrompt: string) => {
+    setPrompt(newPrompt);
+  };
+
+  const handleSubmit = () => {
+    let messageSend = "";
+
     if (selectedFlow === "flujo1") {
       messageSend =
         "Por favor, analiza detalladamente el siguiente código de programación: " +
@@ -19,11 +33,9 @@ function App() {
     } else {
       messageSend =
         "Por favor, analiza detalladamente el siguiente código de programación: " +
-        prompt;
-      +(
+        prompt +
         //" sigue estos pasos: Realiza un análisis detallado del código proporcionado. Genera observaciones y sugerencias basadas en tu análisis. Implementa las sugerencias propuestas y prueba el código corregido. Documenta tus observaciones y soluciones implementadas. Proporciona retroalimentación sobre el proceso de revisión y corrección.";
-        " sigue estos pasos: Realiza un análisis detallado del código. Genera observaciones y sugerencias. Implementa las sugerencias y prueba el código. Documenta tus observaciones y soluciones. Proporciona retroalimentación sobre el proceso."
-      );
+        " sigue estos pasos: Realiza un análisis detallado del código. Genera observaciones y sugerencias. Implementa las sugerencias y prueba el código. Documenta tus observaciones y soluciones. Proporciona retroalimentación sobre el proceso.";
     }
 
     const url =
@@ -62,104 +74,33 @@ function App() {
         chrome.tabs.onUpdated.addListener(listener);
       }
     });
-  };
-
-  const handleOptionChange = (option: string) => {
-    setSelectedOption(option);
-    console.log(option);
-  };
-
-  const handleOptionChangeFlow = (option: string) => {
-    setSelectedFlow(option);
-    console.log(option);
+    console.log(
+      "Enviar formulario con los datos:",
+      selectedOption,
+      selectedFlow,
+      prompt
+    );
   };
 
   return (
-    <>
-      <div className="bg-gray-400 rounded-3xl font-mono text-base text-black ">
-        <div className="p-5 space-y-3 flex-col">
-          <h1 className="text-xl">My Extension</h1>
-          <div className="flex ">
-            <input
-              type="radio"
-              id="option1"
-              name="options"
-              value="option1"
-              className="sr-only"
-              checked={selectedOption === "option1"}
-              onChange={() => handleOptionChange("option1")}
-            />
-            <label
-              htmlFor="option1"
-              className={`px-4 py-2 rounded-lg w-1/2 mr-1 hover:cursor-pointer ${
-                selectedOption === "option1"
-                  ? "bg-blue-500 text-black  font-bold"
-                  : "border-0 bg-gray-200 opacity-50"
-              }`}
-            >
-              GEMINI
-            </label>
-
-            <input
-              type="radio"
-              id="option2"
-              name="options"
-              value="option2"
-              className="sr-only"
-              checked={selectedOption === "option2"}
-              onChange={() => handleOptionChange("option2")}
-            />
-            <label
-              htmlFor="option2"
-              className={`px-4 py-2 rounded-lg w-1/2 ml-1 hover:cursor-pointer ${
-                selectedOption === "option2"
-                  ? "bg-blue-500 text-black  font-bold"
-                  : "border-0 bg-gray-200 opacity-50"
-              }`}
-            >
-              ChatGPT
-            </label>
-          </div>
-
-          <textarea
-            className="p-5 border-2 bg-slate-300 border-black rounded-lg text-sm"
-            id="texto"
-            name="texto"
-            rows={10}
-            cols={75}
-            required
-            value={prompt}
-            onChange={(event) => setPrompt(event.target.value)}
-          ></textarea>
-          <label className="mr-1">
-            <input
-              className="mr-1"
-              type="radio"
-              value="flujo1"
-              checked={selectedFlow === "flujo1"}
-              onChange={() => handleOptionChangeFlow("flujo1")}
-            />
-            Flujo Reflexivo
-          </label>
-          <label className="ml-1">
-            <input
-              className="mr-1"
-              type="radio"
-              value="flujo2"
-              checked={selectedFlow === "flujo2"}
-              onChange={() => handleOptionChangeFlow("flujo2")}
-            />
-            Flujo Multiagente
-          </label>
-          <div className="grid justify-items-center">
-            <button className="w-1/3" onClick={onClick}>
-              Enviar
-            </button>
-          </div>
+    <div className="bg-gray-400 rounded-3xl font-mono text-base text-black">
+      <div className="p-5 space-y-3 flex-col">
+        <h1 className="text-xl">My Extension</h1>
+        <OptionSelector
+          selectedOption={selectedOption}
+          handleOptionChange={handleOptionChange}
+        />
+        <TextInput prompt={prompt} onPromptChange={handlePromptChange} />
+        <FlowSelector
+          selectedFlow={selectedFlow}
+          handleFlowChange={handleFlowChange}
+        />
+        <div className="grid justify-items-center">
+          <SubmitButton onClick={handleSubmit} />
         </div>
       </div>
-    </>
+    </div>
   );
-}
+};
 
 export default App;
