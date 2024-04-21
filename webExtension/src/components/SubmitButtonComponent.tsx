@@ -6,7 +6,7 @@ interface SubmitButtonProps {
 
 const SubmitButton: React.FC<SubmitButtonProps> = ({ onClick }) => {
   return (
-    <button className="w-1/3" onClick={onClick}>
+    <button className="w-1/3 font-bold text-lg" onClick={onClick}>
       Enviar
     </button>
   );

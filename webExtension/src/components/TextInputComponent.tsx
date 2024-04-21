@@ -12,7 +12,7 @@ const TextInput: React.FC<TextInputProps> = ({ prompt, onPromptChange }) => {
 
   return (
     <textarea
-      className="p-5 border-2 bg-slate-300 border-black rounded-lg text-sm"
+      className="p-5 border-2 bg-slate-300 border-black rounded-lg text-base"
       id="texto"
       name="texto"
       rows={10}
@@ -20,6 +20,7 @@ const TextInput: React.FC<TextInputProps> = ({ prompt, onPromptChange }) => {
       required
       value={prompt}
       onChange={handleChange}
+      placeholder="Ingresa tu código aquí"
     ></textarea>
   );
 };

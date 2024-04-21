@@ -5,9 +5,12 @@ interface FlowSelectorProps {
   handleFlowChange: (flow: string) => void;
 }
 
-const FlowSelector: React.FC<FlowSelectorProps> = ({ selectedFlow, handleFlowChange }) => {
+const FlowSelector: React.FC<FlowSelectorProps> = ({
+  selectedFlow,
+  handleFlowChange,
+}) => {
   return (
-    <div>
+    <div className="flex flex-row items-center justify-center font-bold text-lg">
       <label className="mr-1">
         <input
           className="mr-1"

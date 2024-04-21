@@ -5,9 +5,12 @@ interface OptionSelectorProps {
   handleOptionChange: (option: string) => void;
 }
 
-const OptionSelector: React.FC<OptionSelectorProps> = ({ selectedOption, handleOptionChange }) => {
+const OptionSelector: React.FC<OptionSelectorProps> = ({
+  selectedOption,
+  handleOptionChange,
+}) => {
   return (
-    <div className="flex">
+    <div className="flex text-center">
       <input
         type="radio"
         id="option1"
@@ -21,11 +24,11 @@ const OptionSelector: React.FC<OptionSelectorProps> = ({ selectedOption, handleO
         htmlFor="option1"
         className={`px-4 py-2 rounded-lg w-1/2 mr-1 hover:cursor-pointer ${
           selectedOption === "option1"
-            ? "bg-blue-500 text-black font-bold"
+            ? "bg-lime-500 text-black font-bold"
             : "border-0 bg-gray-200 opacity-50"
         }`}
       >
-        GEMINI
+        Gemini
       </label>
 
       <input
@@ -41,7 +44,7 @@ const OptionSelector: React.FC<OptionSelectorProps> = ({ selectedOption, handleO
         htmlFor="option2"
         className={`px-4 py-2 rounded-lg w-1/2 ml-1 hover:cursor-pointer ${
           selectedOption === "option2"
-            ? "bg-blue-500 text-black font-bold"
+            ? "bg-lime-500 text-black font-bold"
             : "border-0 bg-gray-200 opacity-50"
         }`}
       >
